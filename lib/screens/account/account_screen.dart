@@ -34,168 +34,161 @@ class AccountScreen extends StatelessWidget {
       ),
       body: GetBuilder<UserController>(builder: (userController) {
         return _userLoggedIn
-            ? (userController.isLoading
-                ? Container(
-                    width: double.maxFinite,
-                    margin: EdgeInsets.only(top: Dimensions.height20),
-                    child: Column(
-                      children: [
-                        //profile icon
-                        AppIcon(
-                          icon: Icons.person,
-                          backgroundColor: AppColors.mainColor,
-                          iconColor: Colors.white,
-                          iconSize: Dimensions.height30 + Dimensions.height45,
-                          size: Dimensions.height15 * 10,
-                        ),
-                        SizedBox(
-                          height: Dimensions.height30,
-                        ),
+            // ? (userController.isLoading
+            ? Container(
+                width: double.maxFinite,
+                margin: EdgeInsets.only(top: Dimensions.height20),
+                child: Column(
+                  children: [
+                    //profile icon
+                    AppIcon(
+                      icon: Icons.person,
+                      backgroundColor: AppColors.mainColor,
+                      iconColor: Colors.white,
+                      iconSize: Dimensions.height30 + Dimensions.height45,
+                      size: Dimensions.height15 * 10,
+                    ),
+                    SizedBox(
+                      height: Dimensions.height30,
+                    ),
 
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                //name
-                                AccountWidget(
-                                  appIcon: AppIcon(
-                                    icon: Icons.person,
-                                    backgroundColor: AppColors.mainColor,
-                                    iconColor: Colors.white,
-                                    iconSize: Dimensions.height10 * 5 / 2,
-                                    size: Dimensions.height10 * 5,
-                                  ),
-                                  bigText: BigText(
-                                      text: userController.userModel!.name),
-                                ),
-                                SizedBox(
-                                  height: Dimensions.height20,
-                                ),
-                                //phone
-                                AccountWidget(
-                                  appIcon: AppIcon(
-                                    icon: Icons.phone,
-                                    backgroundColor: AppColors.yellowColor,
-                                    iconColor: Colors.white,
-                                    iconSize: Dimensions.height10 * 5 / 2,
-                                    size: Dimensions.height10 * 5,
-                                  ),
-                                  bigText: BigText(
-                                      text: userController.userModel!.phone),
-                                ),
-                                SizedBox(
-                                  height: Dimensions.height20,
-                                ),
-                                //email
-                                AccountWidget(
-                                  appIcon: AppIcon(
-                                    icon: Icons.email,
-                                    backgroundColor: AppColors.yellowColor,
-                                    iconColor: Colors.white,
-                                    iconSize: Dimensions.height10 * 5 / 2,
-                                    size: Dimensions.height10 * 5,
-                                  ),
-                                  bigText: BigText(
-                                      text: userController.userModel!.email),
-                                ),
-                                SizedBox(
-                                  height: Dimensions.height20,
-                                ),
-                                //address
-                                GetBuilder<LocationController>(
-                                    builder: (locationController) {
-                                  if (_userLoggedIn &&
-                                      locationController.addressList.isEmpty) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Get.offNamed(
-                                            RouteHelper.getAddressPage());
-                                      },
-                                      child: AccountWidget(
-                                        appIcon: AppIcon(
-                                          icon: Icons.location_on,
-                                          backgroundColor:
-                                              AppColors.yellowColor,
-                                          iconColor: Colors.white,
-                                          iconSize: Dimensions.height10 * 5 / 2,
-                                          size: Dimensions.height10 * 5,
-                                        ),
-                                        bigText: BigText(
-                                            text: "Fill in your address"),
-                                      ),
-                                    );
-                                  } else {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Get.offNamed(
-                                            RouteHelper.getAddressPage());
-                                      },
-                                      child: AccountWidget(
-                                        appIcon: AppIcon(
-                                          icon: Icons.location_on,
-                                          backgroundColor:
-                                              AppColors.yellowColor,
-                                          iconColor: Colors.white,
-                                          iconSize: Dimensions.height10 * 5 / 2,
-                                          size: Dimensions.height10 * 5,
-                                        ),
-                                        bigText: BigText(text: "Your address"),
-                                      ),
-                                    );
-                                  }
-                                }),
-
-                                SizedBox(
-                                  height: Dimensions.height20,
-                                ),
-                                //messages
-                                AccountWidget(
-                                  appIcon: AppIcon(
-                                    icon: Icons.message,
-                                    backgroundColor: Colors.redAccent,
-                                    iconColor: Colors.white,
-                                    iconSize: Dimensions.height10 * 5 / 2,
-                                    size: Dimensions.height10 * 5,
-                                  ),
-                                  bigText: BigText(text: "Messages"),
-                                ),
-                                SizedBox(
-                                  height: Dimensions.height20,
-                                ),
-                                //messages
-                                GestureDetector(
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            //name
+                            AccountWidget(
+                              appIcon: AppIcon(
+                                icon: Icons.person,
+                                backgroundColor: AppColors.mainColor,
+                                iconColor: Colors.white,
+                                iconSize: Dimensions.height10 * 5 / 2,
+                                size: Dimensions.height10 * 5,
+                              ),
+                              bigText:
+                                  BigText(text: userController.userModel!.name),
+                            ),
+                            SizedBox(
+                              height: Dimensions.height20,
+                            ),
+                            //phone
+                            AccountWidget(
+                              appIcon: AppIcon(
+                                icon: Icons.phone,
+                                backgroundColor: AppColors.yellowColor,
+                                iconColor: Colors.white,
+                                iconSize: Dimensions.height10 * 5 / 2,
+                                size: Dimensions.height10 * 5,
+                              ),
+                              bigText: BigText(
+                                  text: userController.userModel!.phone),
+                            ),
+                            SizedBox(
+                              height: Dimensions.height20,
+                            ),
+                            //email
+                            AccountWidget(
+                              appIcon: AppIcon(
+                                icon: Icons.email,
+                                backgroundColor: AppColors.yellowColor,
+                                iconColor: Colors.white,
+                                iconSize: Dimensions.height10 * 5 / 2,
+                                size: Dimensions.height10 * 5,
+                              ),
+                              bigText: BigText(
+                                  text: userController.userModel!.email),
+                            ),
+                            SizedBox(
+                              height: Dimensions.height20,
+                            ),
+                            //address
+                            GetBuilder<LocationController>(
+                                builder: (locationController) {
+                              if (_userLoggedIn &&
+                                  locationController.addressList.isEmpty) {
+                                return GestureDetector(
                                   onTap: () {
-                                    if (Get.find<AuthController>()
-                                        .userLoggedIn()) {
-                                      Get.find<AuthController>()
-                                          .clearSharedData();
-                                      Get.find<CartController>().clear();
-                                      Get.find<CartController>()
-                                          .clearCartHistory();
-                                      Get.find<LocationController>()
-                                          .clearAddressList();
-                                      Get.toNamed(RouteHelper.getSignInPage());
-                                    }
+                                    Get.offNamed(RouteHelper.getAddressPage());
                                   },
                                   child: AccountWidget(
                                     appIcon: AppIcon(
-                                      icon: Icons.logout,
-                                      backgroundColor: Colors.redAccent,
+                                      icon: Icons.location_on,
+                                      backgroundColor: AppColors.yellowColor,
                                       iconColor: Colors.white,
                                       iconSize: Dimensions.height10 * 5 / 2,
                                       size: Dimensions.height10 * 5,
                                     ),
-                                    bigText: BigText(text: "Logout"),
+                                    bigText:
+                                        BigText(text: "Fill in your address"),
                                   ),
-                                ),
-                              ],
+                                );
+                              } else {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.offNamed(RouteHelper.getAddressPage());
+                                  },
+                                  child: AccountWidget(
+                                    appIcon: AppIcon(
+                                      icon: Icons.location_on,
+                                      backgroundColor: AppColors.yellowColor,
+                                      iconColor: Colors.white,
+                                      iconSize: Dimensions.height10 * 5 / 2,
+                                      size: Dimensions.height10 * 5,
+                                    ),
+                                    bigText: BigText(text: "Your address"),
+                                  ),
+                                );
+                              }
+                            }),
+
+                            SizedBox(
+                              height: Dimensions.height20,
                             ),
-                          ),
+                            //messages
+                            AccountWidget(
+                              appIcon: AppIcon(
+                                icon: Icons.message,
+                                backgroundColor: Colors.redAccent,
+                                iconColor: Colors.white,
+                                iconSize: Dimensions.height10 * 5 / 2,
+                                size: Dimensions.height10 * 5,
+                              ),
+                              bigText: BigText(text: "Messages"),
+                            ),
+                            SizedBox(
+                              height: Dimensions.height20,
+                            ),
+                            //messages
+                            GestureDetector(
+                              onTap: () {
+                                if (Get.find<AuthController>().userLoggedIn()) {
+                                  Get.find<AuthController>().clearSharedData();
+                                  Get.find<CartController>().clear();
+                                  Get.find<CartController>().clearCartHistory();
+                                  Get.find<LocationController>()
+                                      .clearAddressList();
+                                  Get.toNamed(RouteHelper.getSignInPage());
+                                }
+                              },
+                              child: AccountWidget(
+                                appIcon: AppIcon(
+                                  icon: Icons.logout,
+                                  backgroundColor: Colors.redAccent,
+                                  iconColor: Colors.white,
+                                  iconSize: Dimensions.height10 * 5 / 2,
+                                  size: Dimensions.height10 * 5,
+                                ),
+                                bigText: BigText(text: "Logout"),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  )
-                : CustomLoader())
+                  ],
+                ),
+              )
+            //: CustomLoader())
             : Container(
                 child: Center(
                     child: Column(

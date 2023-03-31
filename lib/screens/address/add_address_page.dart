@@ -6,6 +6,7 @@ import 'package:food_delivery/utils/colos.dart';
 import 'package:food_delivery/widgets/app_text_field.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:food_delivery/controllers/user_control.dart';
 
 import '../../controllers/user_controller.dart';
 import '../../routes/route_helper.dart';
@@ -65,8 +66,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
         body: GetBuilder<UserController>(builder: (userController) {
           if (userController.userModel != null &&
               _contactPersonName.text.isEmpty) {
-            _contactPersonName.text = '${userController.userModel?.name}';
-            _contactPersonNumber.text = '${userController.userModel?.phone}';
+            _contactPersonName.text = '${userController.userModel!.name}';
+            _contactPersonNumber.text = '${userController.userModel!.phone}';
             if (Get.find<LocationController>().addressList.isNotEmpty) {
               _addressController.text =
                   Get.find<LocationController>().getUserAddress().address;

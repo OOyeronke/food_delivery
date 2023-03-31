@@ -160,7 +160,7 @@ class LocationController extends GetxController implements GetxService {
 
   void clearAddressList() {
     _addressList = [];
-    _allAddressList = [];
+    // _allAddressList = [];
     update();
   }
 }

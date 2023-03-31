@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       ),
       CartHistory(),
       AccountScreen(),
+      //AccountPage(),
     ];
   }
 
