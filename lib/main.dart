@@ -6,6 +6,7 @@ import 'package:food_delivery/screens/food/recommended_food_detail.dart';
 import 'package:food_delivery/screens/home/food_body_screen.dart';
 import 'package:food_delivery/screens/home/main_food_screen.dart';
 import 'package:food_delivery/screens/splash/splash_screen.dart';
+import 'package:food_delivery/utils/colos.dart';
 import 'package:get/get.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
           home: SplashScreen(),
           //initialRoute: RouteHelper.getSplashPage(),
           getPages: RouteHelper.routes,
+          theme: ThemeData(
+            primaryColor: AppColors.mainColor,
+            fontFamily: "Lato",
+          ),
         );
       });
     });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/auth_controller.dart';
 import 'package:food_delivery/controllers/location_controller.dart';
 import 'package:food_delivery/models/address_model.dart';
+import 'package:food_delivery/screens/address/pick_address_map.dart';
 import 'package:food_delivery/utils/colos.dart';
 import 'package:food_delivery/widgets/app_text_field.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,6 @@ class _AddAddressPageState extends State<AddAddressPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _isLogged = Get.find<AuthController>().userLoggedIn();
     //bool modelReady = Get.find<UserController>().userModel == null;
@@ -43,6 +43,11 @@ class _AddAddressPageState extends State<AddAddressPage> {
     //   Get.find<UserController>().getUserInfo();
     // }
     if (Get.find<LocationController>().addressList.isNotEmpty) {
+      if (Get.find<LocationController>().getUserAddressFromLocalStorage() ==
+          "") {
+        Get.find<LocationController>()
+            .saveUserAddress(Get.find<LocationController>().addressList.last);
+      }
       Get.find<LocationController>().getUserAddress();
       _cameraPosition = CameraPosition(
           target: LatLng(
@@ -66,8 +71,8 @@ class _AddAddressPageState extends State<AddAddressPage> {
         body: GetBuilder<UserController>(builder: (userController) {
           if (userController.userModel != null &&
               _contactPersonName.text.isEmpty) {
-            _contactPersonName.text = '${userController.userModel!.name}';
-            _contactPersonNumber.text = '${userController.userModel!.phone}';
+            _contactPersonName.text = '${userController.userModel?.name}';
+            _contactPersonNumber.text = '${userController.userModel?.phone}';
             if (Get.find<LocationController>().addressList.isNotEmpty) {
               _addressController.text =
                   Get.find<LocationController>().getUserAddress().address;
@@ -79,7 +84,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 '${locationController.placemark.locality ?? ''}'
                 '${locationController.placemark.postalCode ?? ''}'
                 '${locationController.placemark.country ?? ''}';
-            print("address in my view is" + _addressController.text);
+            //   print("address in my view is" + _addressController.text);
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +102,15 @@ class _AddAddressPageState extends State<AddAddressPage> {
                         GoogleMap(
                             initialCameraPosition: CameraPosition(
                                 target: _initialPosition, zoom: 17),
+                            onTap: (latlng) {
+                              Get.toNamed(RouteHelper.getPickAddressPage(),
+                                  arguments: PickAddressMap(
+                                    fromSignUp: false,
+                                    fromAddress: true,
+                                    googleMapController:
+                                        locationController.mapController,
+                                  ));
+                            },
                             zoomControlsEnabled: false,
                             compassEnabled: false,
                             indoorViewEnabled: true,

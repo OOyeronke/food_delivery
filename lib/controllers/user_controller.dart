@@ -10,14 +10,16 @@ class UserController extends GetxController implements GetxService {
   UserController({
     required this.userRepo,
   });
-  UserModel? _userModel;
+
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
+
+  UserModel? _userModel;
+  UserModel? get userModel => _userModel;
+
   // late UserModel _userModel;
   // UserModel get userModel => _userModel;
-
-  UserModel? get userModel => _userModel;
 
   Future<ResponseModel> getUserInfo() async {
     Response response = await userRepo.getUserInfo();

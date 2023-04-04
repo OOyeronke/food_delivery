@@ -18,7 +18,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _userLoggedIn = Get.find<AuthController>().userLoggedIn();
+    final bool _userLoggedIn = Get.find<AuthController>().userLoggedIn();
     if (_userLoggedIn) {
       Get.find<UserController>().getUserInfo();
       print("User has logged in");
@@ -26,10 +26,12 @@ class AccountScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: BigText(
-          text: "Profile",
-          size: 24,
-          color: Colors.white,
+        title: Center(
+          child: BigText(
+            text: "Profile",
+            size: 24,
+            color: Colors.white,
+          ),
         ),
       ),
       body: GetBuilder<UserController>(builder: (userController) {

@@ -31,19 +31,29 @@ class LocationController extends GetxController implements GetxService {
   Map get getAddress => _getAddress;
 
   late GoogleMapController _mapController;
-  bool _updtaeAddressData = true;
+  GoogleMapController get mapController => _mapController;
+  bool _updateAddressData = true;
   bool _changeAddress = true;
 
   bool get loading => _loading;
   Position get position => _position;
   Position get pickPosition => _pickPosition;
+  //for service zone
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  // whether the user is in service
+  bool _inZone = false;
+  bool get inZone => _inZone;
+  //for showing and hidin the button as map loads
+  bool _buttonDisabled = true;
+  bool get buttonDisabled => _buttonDisabled;
 
   void setMapController(GoogleMapController mapController) {
     _mapController = mapController;
   }
 
   void updatePosition(CameraPosition position, bool fromAddress) async {
-    if (_updtaeAddressData) {
+    if (_updateAddressData) {
       _loading = true;
       update();
       try {
@@ -70,6 +80,13 @@ class LocationController extends GetxController implements GetxService {
             speed: 1,
           );
         }
+
+        ResponseModel _responseModel = await getZone(
+            position.target.latitude.toString(),
+            position.target.longitude.toString(),
+            false);
+        //if button value is false we are in seevice area
+        _buttonDisabled = !_responseModel.isSuccess;
         if (_changeAddress) {
           String _address = await getAddressfromGeocode(
             LatLng(
@@ -84,6 +101,11 @@ class LocationController extends GetxController implements GetxService {
       } catch (e) {
         print(e);
       }
+
+      _loading = false;
+      update();
+    } else {
+      _updateAddressData = true;
     }
   }
 
@@ -119,7 +141,7 @@ class LocationController extends GetxController implements GetxService {
     update();
   }
 
-  addAddress(AddressModel addressModel) async {
+  Future<ResponseModel> addAddress(AddressModel addressModel) async {
     _loading = true;
     update();
     Response response = await locationRepo.addAddress(addressModel);
@@ -137,7 +159,7 @@ class LocationController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  getAddressList() async {
+  Future<void> getAddressList() async {
     Response response = await locationRepo.getAllAddress();
     if (response.statusCode == 200) {
       _addressList = [];
@@ -160,7 +182,58 @@ class LocationController extends GetxController implements GetxService {
 
   void clearAddressList() {
     _addressList = [];
-    // _allAddressList = [];
+    _allAddressList = [];
     update();
+  }
+
+  String getUserAddressFromLocalStorage() {
+    return locationRepo.getUserAddress();
+  }
+
+  void setAddAddressData() {
+    _position = _pickPosition;
+    _placemark = _pickPlacemark;
+    _updateAddressData = false;
+    update();
+  }
+
+  Future<ResponseModel> getZone(String lat, String lng, bool markerLoad) async {
+    late ResponseModel _responseModel;
+    if (markerLoad) {
+      _loading = true;
+    } else {
+      _isLoading = true;
+    }
+    update();
+    await Future.delayed(const Duration(seconds: 2), () {
+      _responseModel = ResponseModel(true, "success");
+      if (markerLoad) {
+        _loading = true;
+      } else {
+        _isLoading = true;
+      }
+      _inZone = true;
+    });
+    update();
+    Response response = await locationRepo.getZone(lat, lng);
+    if (response.statusCode == 200) {
+      _inZone = true;
+      _responseModel = ResponseModel(true, response.body["zone_id"].toString());
+    } else {
+      _inZone = false;
+      _responseModel = ResponseModel(true, response.statusText!);
+    }
+    if (markerLoad) {
+      _loading = false;
+    } else {
+      _isLoading = false;
+    }
+    print(response.statusCode);
+    //200 - went well
+    //404-problem with route
+    //500 - problem with server/
+    ///403 - permission problem
+    update();
+    return _responseModel;
   }
 }

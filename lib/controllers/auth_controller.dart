@@ -20,7 +20,7 @@ class AuthController extends GetxController implements GetxService {
     late ResponseModel responseModel;
     if (response.statusCode == 200) {
       authRepo.saveUserToken(response.body["token"]);
-      print("My token is " + response.body["token"]);
+      //print("My token is " + response.body["token"]);
       responseModel = ResponseModel(true, response.body["token"]);
     } else {
       responseModel = ResponseModel(false, response.statusText!);
@@ -47,8 +47,8 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  void saveUserNumberAndPassword(String number, String password) {
-    authRepo.saveUserNumberAndPassword(number, password);
+  void saveUserNumberAndPassword(String phone, String password) {
+    authRepo.saveUserNumberAndPassword(phone, password);
   }
 
   bool userLoggedIn() {
